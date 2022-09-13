@@ -1,8 +1,13 @@
 package ru.practicum.user;
 
-import ru.practicum.event.Event;
+import ru.practicum.event.EventCreateRequest;
 import ru.practicum.event.dto.EventShortDto;
+import ru.practicum.user.model.User;
+
+import java.util.List;
 
 public interface UserService {
-    EventShortDto postEvent(long userId, Event event);
+    User createUSer(User user);
+
+    List<User> getAllUsers(Integer from, Integer size);
 }

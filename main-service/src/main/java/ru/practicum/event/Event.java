@@ -3,8 +3,8 @@ package ru.practicum.event;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.practicum.Category;
 import ru.practicum.State;
+import ru.practicum.category.entitty.Category;
 import ru.practicum.user.model.User;
 
 import javax.persistence.*;
@@ -52,13 +52,11 @@ public class Event {
     @Column(name = "participant_limit")
     private Integer participantLimit = 0;
 
-    //@ManyToOne()
-    //@JoinColumn(name = "category_id")
-//    @Column(name = "category_id")
-//    private Category category;
-//
-//    //@ManyToOne()
-//    //@JoinColumn(name = "initiator")
-//    @Column(name = "initiator")
-//    private User initiator;
+    @ManyToOne()
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne()
+    @JoinColumn(name = "initiator")
+    private User initiator;
 }

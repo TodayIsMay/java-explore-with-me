@@ -1,23 +1,30 @@
 package ru.practicum.event;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.practicum.event.dto.EventShortDto;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/events")
 public class EventController {
-    private EventServiceImpl eventService;
+    private final EventServiceImpl eventService;
 
     public EventController(EventServiceImpl eventService) {
         this.eventService = eventService;
     }
 
-    @GetMapping
+    @GetMapping("/events")
     public List<EventShortDto> getEvents() {
         return eventService.getAll();
+    }
+
+    @GetMapping("/events/{eventId}")
+    public EventShortDto getEventById(@PathVariable long eventId) {
+        return eventService.getEventById(eventId);
+    }
+
+    @PostMapping("users/{userId}/events")
+    public EventShortDto postEvent(@PathVariable long userId, @RequestBody EventCreateRequest eventRequest) {
+        return eventService.postEvent(userId, eventRequest);
     }
 }

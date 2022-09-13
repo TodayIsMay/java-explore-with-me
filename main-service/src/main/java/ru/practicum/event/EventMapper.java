@@ -10,9 +10,13 @@ public class EventMapper {
         return new EventShortDto(event.getId(),
                 event.getDescription(),
                 event.getAnnotation(),
-                //event.getCategory(),
+                new EventShortDto.Category(
+                        event.getCategory().getId(),
+                        event.getCategory().getName()),
                 event.getEventDate(),
-                //event.getInitiator(),
+                new EventShortDto.User(
+                        event.getInitiator().getId(),
+                        event.getInitiator().getName()),
                 event.getTitle());
     }
 
