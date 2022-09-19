@@ -1,11 +1,13 @@
 package ru.practicum.event;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.State;
 import ru.practicum.category.entitty.Category;
 import ru.practicum.user.model.User;
+import ru.practicum.util.LocalDateTimeDeserializator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -30,12 +32,15 @@ public class Event {
     @Column(name = "annotation")
     private String annotation;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializator.class)
     @Column(name = "created_on")
     private LocalDateTime createdOn;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializator.class)
     @Column(name = "event_date")
     private LocalDateTime eventDate;
 
+    @JsonDeserialize(using = LocalDateTimeDeserializator.class)
     @Column(name = "published_on")
     private LocalDateTime publishedOn = null;
 
