@@ -61,4 +61,17 @@ public class EventServiceImpl implements EventService {
 
         return EventMapper.toEventShortDto(eventRepository.save(event));
     }
+
+    @Override
+    public EventShortDto publishEvent(long eventId) throws NoSuchElementException {
+        Optional<Event> optionalEvent = eventRepository.findById(eventId);
+        if (optionalEvent.isEmpty()) {
+            log.warn("Событие с ID {} не найдено!", eventId);
+            throw new NoSuchElementException("Событие с таким ID не найдено!");
+        }
+        Event event = optionalEvent.get();
+        event.setPublishedOn(LocalDateTime.now());
+        event.setState(State.PUBLISHED);
+        return EventMapper.toEventShortDto(eventRepository.save(event));
+    }
 }

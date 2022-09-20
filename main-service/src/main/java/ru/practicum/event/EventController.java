@@ -27,4 +27,9 @@ public class EventController {
     public EventShortDto postEvent(@PathVariable long userId, @RequestBody EventCreateRequest eventRequest) {
         return eventService.postEvent(userId, eventRequest);
     }
+
+    @PatchMapping("/admin/events/{eventId}/publish")
+    public EventShortDto publishEvent(@PathVariable long eventId) {
+        return eventService.publishEvent(eventId);
+    }
 }

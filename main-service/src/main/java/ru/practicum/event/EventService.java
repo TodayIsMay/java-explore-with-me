@@ -3,6 +3,7 @@ package ru.practicum.event;
 import ru.practicum.event.dto.EventShortDto;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public interface EventService {
 
@@ -11,4 +12,6 @@ public interface EventService {
     EventShortDto getEventById(long id);
 
     EventShortDto postEvent(long userId, EventCreateRequest eventRequest);
+
+    EventShortDto publishEvent(long eventId) throws NoSuchElementException;
 }
