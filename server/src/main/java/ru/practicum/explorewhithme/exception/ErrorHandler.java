@@ -17,7 +17,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleUserNotFoundException(final CategoryNotFoundException e) {
+    public ErrorResponse handleCategoryNotFoundException(final CategoryNotFoundException e) {
         return new ErrorResponse(
                 String.format("Категория не найдена: \"%s\".", e.getMessage())
         );
@@ -25,7 +25,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleUserNotFoundException(final CommentNotFoundException e) {
+    public ErrorResponse handleCommentNotFoundException(final CommentNotFoundException e) {
         return new ErrorResponse(
                 String.format("Категория не найдена: \"%s\".", e.getMessage())
         );
@@ -33,7 +33,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleUserNotFoundException(final EventNotFoundException e) {
+    public ErrorResponse handleEventNotFoundException(final EventNotFoundException e) {
         return new ErrorResponse(
                 String.format("Категория не найдена: \"%s\".", e.getMessage())
         );
@@ -65,7 +65,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ErrorResponse handleValidationException(final AccessException e) {
+    public ErrorResponse handleAccessException(final AccessException e) {
         return new ErrorResponse(
                 "Exception: " + e.getMessage()
         );
