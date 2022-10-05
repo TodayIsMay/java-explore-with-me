@@ -17,7 +17,15 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleCategoryNotFoundException(final CategoryNotFoundException e) {
+    public ErrorResponse handleUserNotFoundException(final CategoryNotFoundException e) {
+        return new ErrorResponse(
+                String.format("Категория не найдена: \"%s\".", e.getMessage())
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleUserNotFoundException(final CommentNotFoundException e) {
         return new ErrorResponse(
                 String.format("Категория не найдена: \"%s\".", e.getMessage())
         );
