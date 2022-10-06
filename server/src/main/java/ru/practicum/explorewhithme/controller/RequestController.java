@@ -56,7 +56,7 @@ public class RequestController {
     public RequestDto rejectUserRequests(@PathVariable long userId, @PathVariable long eventId,
                                          @PathVariable long requestId) {
         Request request = requestService.rejectUserRequests(userId, eventId, requestId);
-        log.info("Запрос на участие пользователя id: " + userId + "в событии" + eventId + "подтверждён");
+        log.info("Запрос на участие пользователя id: " + userId + "в событии" + eventId + "отклонён");
         return requestMapper.toRequestDto(request);
     }
 }

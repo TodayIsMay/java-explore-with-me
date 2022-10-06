@@ -35,7 +35,23 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleEventNotFoundException(final EventNotFoundException e) {
         return new ErrorResponse(
-                String.format("Категория не найдена: \"%s\".", e.getMessage())
+                String.format("Событие не найдено: \"%s\".", e.getMessage())
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleCompilationNotFoundException(final CompilationNotFoundException e) {
+        return new ErrorResponse(
+                String.format("Подборка не найдена: \"%s\".", e.getMessage())
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleRequestNotFoundException(final RequestNotFoundException e) {
+        return new ErrorResponse(
+                String.format("Запрос не найден: \"%s\".", e.getMessage())
         );
     }
 
@@ -49,15 +65,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleValidationException(final NullPointerException e) {
-        return new ErrorResponse(
-                "Exception: " + e.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleValidationException(final ArithmeticException e) {
+    public ErrorResponse handleValidationException(final Exception e) {
         return new ErrorResponse(
                 "Exception: " + e.getMessage()
         );

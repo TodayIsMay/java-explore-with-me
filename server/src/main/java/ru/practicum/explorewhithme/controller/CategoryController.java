@@ -48,7 +48,7 @@ public class CategoryController {
     public CategoryDto update(@Valid @RequestBody CategoryDto categoryDto) {
         Category category = categoryMapper.toCategory(categoryDto);
         Category categoryForUpdate = categoryService.upDate(category, category.getId());
-        log.info("Update category: " + categoryForUpdate);
+        log.info("Обновлена категория: " + categoryForUpdate);
         return categoryMapper.toCategoryDto(categoryForUpdate);
     }
 

@@ -36,7 +36,7 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             return user.get();
-        } else throw new UserNotFoundException("User id= " + id + " not found");
+        } else throw new UserNotFoundException("Пользователь с ID " + id + " не найден");
     }
 
     public List<User> findAll() {

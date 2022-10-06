@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.practicum.explorewhithme.exception.CompilationNotFoundException;
 import ru.practicum.explorewhithme.model.Compilation;
 import ru.practicum.explorewhithme.model.Event;
 import ru.practicum.explorewhithme.repository.CompilationRepository;
@@ -61,7 +62,7 @@ public class CompilationService {
         Optional<Compilation> event = compilationRepository.findById(id);
         if (event.isPresent()) {
             return event.get();
-        } else throw new RuntimeException("Compilation id= " + id + " not found");
+        } else throw new CompilationNotFoundException("Подборка с id " + id + " не найдена");
     }
 
     public List<Compilation> findCompilations(Boolean pinned, Integer from, Integer size) {
