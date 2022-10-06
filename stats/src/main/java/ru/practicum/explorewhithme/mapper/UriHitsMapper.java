@@ -10,8 +10,7 @@ import java.util.List;
 @Component
 public class UriHitsMapper {
     public ViewStatsDto toViewStats(UriHits uriHits) {
-        ViewStatsDto viewStatsDto = new ViewStatsDto(uriHits.getApp(), uriHits.getUri(), Long.valueOf(uriHits.getHits()));
-        return viewStatsDto;
+        return new ViewStatsDto(uriHits.getApp(), uriHits.getUri(), Long.valueOf(uriHits.getHits()));
     }
 
     public List<ViewStatsDto> toViewStats(List<UriHits> uriHitsList) {

@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.practicum.explorewhithme.exception.AccessException;
+import ru.practicum.explorewhithme.exception.RequestNotFoundException;
 import ru.practicum.explorewhithme.model.Event;
 import ru.practicum.explorewhithme.model.Request;
 import ru.practicum.explorewhithme.model.Status;
@@ -20,16 +22,17 @@ import java.util.Optional;
 public class RequestService {
     private final RequestRepository requestRepository;
     private final EventService eventService;
+    private final UserService userService;
 
 
     public Request save(Long userId, Long eventId) {
         Event event = eventService.findById(eventId);
         if (Objects.equals(event.getInitiatorId(), userId) || !event.getState().equals(Status.PUBLISHED)) { //Условие опубликованности
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Событие уже опубликовано или запрос оставлен опубликовавшим");
         }
         if (event.getParticipantLimit() != 0) {
             if (event.getParticipantLimit() <= event.getConfirmedRequest()) {
-                throw new RuntimeException();
+                throw new AccessException("Превышен лимит участников события");
             }
         }
         Request request = new Request();
@@ -49,14 +52,14 @@ public class RequestService {
         if (r.isPresent()) {
             return r.get();
         } else {
-            throw new RuntimeException();
+            throw new RequestNotFoundException("Запрос с таким ID не найден!");
         }
     }
 
     public Request cancel(Long userId, Long requestId) {
         Request request = findById(requestId);
         if (!Objects.equals(request.getRequesterId(), userId)) {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Отменять запрос может только тот, кто его оставил");
         }
         request.setStatus(Status.CANCELED);
         return request;
@@ -71,7 +74,7 @@ public class RequestService {
         if (Objects.equals(event.getInitiatorId(), userId)) {
             return requestRepository.findByEventId(eventId);
         } else {
-            throw new RuntimeException();
+            throw new IllegalArgumentException("Получить список запросов на участие может только владелец события");
         }
     }
 
@@ -95,10 +98,19 @@ public class RequestService {
             }
             return request;
         }
-        throw new RuntimeException();
+        throw new AccessException("Превышен лимит участников, либо вы не являетесь владельцем события");
     }
 
+    /**
+     *
+     * @param userId для проверки существования пользователя
+     * @param eventId для проверки существования события
+     * @param requestId для поиска запроса
+     * @return изменённый запрос
+     */
     public Request rejectUserRequests(Long userId, Long eventId, Long requestId) {
+        eventService.findById(eventId);
+        userService.findById(userId);
         Request request = findById(requestId);
         request.setStatus(Status.REJECTED);
         return request;

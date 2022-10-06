@@ -11,9 +11,9 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecificationExecutor {
     List<Event> findByInitiatorId(Long initiatorId, Pageable page);
 
-    @Query(" select e from Event e " +
-            "where (upper(e.annotation) like upper(concat('%', ?1, '%')) " +
-            " or upper(e.description) like upper(concat('%', ?1, '%')))")
+    @Query(" SELECT e FROM Event e " +
+            "WHERE (upper(e.annotation) LIKE upper(concat('%', ?1, '%')) " +
+            " or upper(e.description) LIKE upper(concat('%', ?1, '%')))")
     List<Event> search(String text);
 
 }

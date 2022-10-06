@@ -39,9 +39,8 @@ public class CompilationMapper {
     public CompilationDto toCompilationDto(Compilation compilation) {
         List<Event> events = new ArrayList<>(compilation.getEvents());
         List<EventDto> eventsDto = eventMapper.toEventShortDtoList(events);
-        CompilationDto compilationDto = new CompilationDto(eventsDto, compilation.getId(), compilation.getPinned(),
+        return new CompilationDto(eventsDto, compilation.getId(), compilation.getPinned(),
                 compilation.getTitle());
-        return compilationDto;
     }
 
     public List<CompilationDto> toCompilationDtoList(List<Compilation> compilations) {
