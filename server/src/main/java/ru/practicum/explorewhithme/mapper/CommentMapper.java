@@ -3,10 +3,7 @@ package ru.practicum.explorewhithme.mapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ru.practicum.explorewhithme.dto.CommentDto;
-import ru.practicum.explorewhithme.dto.CommentFullDto;
-import ru.practicum.explorewhithme.dto.EventDto;
-import ru.practicum.explorewhithme.dto.UserDto;
+import ru.practicum.explorewhithme.dto.*;
 import ru.practicum.explorewhithme.model.Comment;
 import ru.practicum.explorewhithme.service.EventService;
 import ru.practicum.explorewhithme.service.UserService;
@@ -30,13 +27,22 @@ public class CommentMapper {
                 comment.getCreated() == null ? LocalDateTime.now() : comment.getCreated());
     }
 
-    public Comment toComment(CommentDto commentDto) {
+    public Comment toComment(UpdateCommentDto commentDto) {
         Comment comment = new Comment();
         comment.setId(commentDto.getId());
         comment.setText(commentDto.getText());
         comment.setEventId(commentDto.getEventId());
         comment.setAuthorId(commentDto.getAuthorId());
-        comment.setCreated(commentDto.getCreated() == null ? LocalDateTime.now() : commentDto.getCreated());
+        //comment.setCreated(commentDto.getCreated() == null ? LocalDateTime.now() : commentDto.getCreated());
+        return comment;
+    }
+
+    public Comment toComment(CreateCommentDto commentDto) {
+        Comment comment = new Comment();
+        comment.setText(commentDto.getText());
+        comment.setEventId(commentDto.getEventId());
+        comment.setAuthorId(commentDto.getAuthorId());
+        //comment.setCreated(commentDto.getCreated() == null ? LocalDateTime.now() : commentDto.getCreated());
         return comment;
     }
 

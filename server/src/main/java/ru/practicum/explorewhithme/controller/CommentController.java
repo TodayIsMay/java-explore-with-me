@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewhithme.dto.CommentDto;
 import ru.practicum.explorewhithme.dto.CommentFullDto;
+import ru.practicum.explorewhithme.dto.CreateCommentDto;
+import ru.practicum.explorewhithme.dto.UpdateCommentDto;
 import ru.practicum.explorewhithme.mapper.CommentMapper;
 import ru.practicum.explorewhithme.model.Comment;
 import ru.practicum.explorewhithme.service.CommentService;
@@ -22,18 +24,17 @@ public class CommentController {
     private final CommentService commentService;
 
     @PostMapping("/comments")// Добавить комментарий на своё событие нельзя
-    public CommentDto createComment(@Valid @RequestBody CommentDto commentDto) {
+    public CommentDto createComment(@Valid @RequestBody CreateCommentDto commentDto) {
         Comment comment = commentMapper.toComment(commentDto);
         Comment savedComment = commentService.save(comment);
-        log.info("Новый комментарий: " + savedComment);
+        log.debug("Новый комментарий: " + savedComment);
         return commentMapper.toCommentDto(savedComment);
     }
 
     @PatchMapping("/comments/{userId}")//Исправить комментарий может только автор комментария
-    public CommentDto updateComment(@Valid @RequestBody CommentDto commentDto, @PathVariable long userId) {
-        Comment comment = commentMapper.toComment(commentDto);
-        Comment savedComment = commentService.update(comment, userId);
-        log.info("Комментарий обновлён : " + savedComment);
+    public CommentDto updateComment(@Valid @RequestBody UpdateCommentDto commentDto, @PathVariable long userId) {
+        Comment savedComment = commentService.update(commentDto, userId);
+        log.debug("Комментарий обновлён : " + savedComment);
         return commentMapper.toCommentDto(savedComment);
     }
 
@@ -43,23 +44,18 @@ public class CommentController {
         return commentMapper.toCommentFullDto(comment);
     }
 
-    @GetMapping("/comments/author/{authId}") //Получить все комментарии автора отсортированные по дате создания
-    public List<CommentDto> getCommentForUser(@PathVariable long authId) {
-        List<Comment> comments = commentService.getCommentForAuthor(authId);
-        return commentMapper.toCommentDtoList(comments);
-    }
-
-    @GetMapping("/comments/event/{eventId}") // Получить все комментарии события отсортированные по дате создания
-    public List<CommentDto> getCommentForEvent(@PathVariable long eventId) {
-        List<Comment> comments = commentService.getCommentForEvent(eventId);
+    @GetMapping("/comments") //Получить все комментарии автора отсортированные по дате создания
+    public List<CommentDto> getCommentForUserOrEvent(@RequestParam(required = false) Long authId,
+                                                     @RequestParam(required = false) Long eventId,
+                                                     @RequestParam(required = false, defaultValue = "0") int from,
+                                                     @RequestParam(required = false, defaultValue = "10") int size) {
+        List<Comment> comments = commentService.getCommentForAuthorOrEvent(authId, eventId, from, size);
         return commentMapper.toCommentDtoList(comments);
     }
 
     @DeleteMapping("/comments/{commId}")
     public void deleteComment(@PathVariable long commId) {
         commentService.deleteComment(commId);
-        log.info("Комментарий id " + commId + " удалён");
+        log.debug("Комментарий id " + commId + " удалён");
     }
-
-
 }
