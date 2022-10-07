@@ -2,7 +2,6 @@ package ru.practicum.explorewhithme.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.practicum.explorewhithme.dto.CategoryDto;
-import ru.practicum.explorewhithme.exception.CategoryNotFoundException;
 import ru.practicum.explorewhithme.model.Category;
 
 import java.util.ArrayList;
