@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@CrossOrigin(origins = { "http://localhost:8080", "https://procrastinate-olz3.vercel.app/" })
 @RestController
 @RequestMapping("/admin/users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
