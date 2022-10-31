@@ -23,6 +23,13 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
+    @GetMapping("/version")
+    public String getVersion() {
+        String version = "31.10.2022 17:48";
+        log.info(version);
+        return version;
+    }
+
     @GetMapping
     public List<UserDto> getAll() {
         List<User> allUsers = new ArrayList<>(userService.findAll());
