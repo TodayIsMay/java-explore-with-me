@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@CrossOrigin(origins = { "http://localhost:8080", "https://procrastinate-olz3.vercel.app/" })
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/admin/users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -22,6 +22,13 @@ public class UserController {
 
     private final UserService userService;
     private final UserMapper userMapper;
+
+    @GetMapping("/version")
+    public String getVersion() {
+        String version = "31.10.2022 17:48";
+        log.info(version);
+        return version;
+    }
 
     @GetMapping
     public List<UserDto> getAll() {
