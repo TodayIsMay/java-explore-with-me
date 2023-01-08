@@ -1,8 +1,12 @@
 package ru.practicum.explorewhithme.controller;
 
+import io.swagger.v3.oas.annotations.headers.Header;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.explorewhithme.dto.UserDto;
 import ru.practicum.explorewhithme.mapper.UserMapper;
@@ -14,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = { "http://localhost:8080", "https://procrastinate-olz3.vercel.app/" })
 @RestController
 @RequestMapping("/admin/users")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -45,11 +49,14 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDto create(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<UserDto> create(@Valid @RequestBody UserDto userDto) {
         User user = userMapper.toUser(userDto);
         User savedUser = userService.save(user);
         log.info("Новый пользователь: " + savedUser);
-        return userMapper.toUserDto(savedUser);
+        UserDto userDto1 = userMapper.toUserDto(savedUser);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Access-Control-Allow-Origin", "localhost:8080");
+        return new ResponseEntity<>(userDto1, headers, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")

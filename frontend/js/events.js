@@ -3,7 +3,7 @@ let event_cards_div = document.querySelector('.event-cards');
 let cardCounter = 0;
 
 
-add_event_button.addEventListener('click', function() {
+add_event_button.addEventListener('click', function () {
   let infoAboutEventInput = document.createElement('div');
   infoAboutEventInput.className = 'info-about-event-input';
   infoAboutEventInput.innerHTML =
@@ -20,21 +20,27 @@ add_event_button.addEventListener('click', function() {
     "console.log('Add card to div');" +
     "  };" +
     "</script>";
-  let name = document.querySelector('.info-about-event')
+
+  let name_field = infoAboutEventInput.querySelector('.event-name');
+  let description_field = infoAboutEventInput.querySelector('.event-description');
+  let event_date = infoAboutEventInput.querySelector('.event-date');
   event_cards_div.replaceWith(infoAboutEventInput);
-  test();
+  addNewCard(name_field, description_field, event_date);
 })
-function test(name, description, date) {
-  let test = document.querySelector('.info-about-event-input');
-  let button = test.querySelector('.add-event-to-bd');
+
+function addNewCard(name, description, date) {
+  let info_about_event_input = document.querySelector('.info-about-event-input');
+  let button = info_about_event_input.querySelector('.add-event-to-bd');
   button.addEventListener('click', function () {
     console.log('Add card to div');
     let newCardDiv = document.createElement('div');
     cardCounter = cardCounter + 1;
+    console.log('Counter: ' + cardCounter);
     newCardDiv.className = 'eventCard' + cardCounter;
     newCardDiv.innerHTML =
-      '<h2>' + name + '</h2>' +
-      '<div>' + description + ' ' + date + '</div>';
+      '<h2>' + name.value + '</h2>' +
+      '<div>' + description.value + ' ' + date.value + '</div>';
     event_cards_div.append(newCardDiv);
+    info_about_event_input.replaceWith(event_cards_div);
   });
 }
