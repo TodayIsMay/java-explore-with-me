@@ -6,7 +6,7 @@ let array = [];
 sign_up_button.addEventListener('click', function () {
   array.push(input_name.value);
   replaceInputs();
-  //setTimeout(redirect, 3000, "EventPage.html");
+  setTimeout(redirect, 3000, "EventPage.html");
   console.log(input_name.value);
   addUserToDB(input_name.value, input_email.value);
 })
@@ -23,7 +23,8 @@ function replaceInputs() {
 }
 
 async function addUserToDB(name, email) {
-  let url = 'http://localhost:8080/admin/users';
+  //let url = 'http://localhost:8080/admin/users';
+  let url = '${server.url}/admin/users';
   let user = {
     name: name,
     email: email
